@@ -6,20 +6,22 @@ import { FaSearch } from "react-icons/fa";
 const CropAllProducts = () => {
   const [allProduct, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sort, setSort] = useState("");
+  console.log(sort);
 
-  // pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
 
   useEffect(() => {
-    fetch("https://krishilink-server-three.vercel.app/products")
+    setLoading(true);
+    fetch(`https://krishilink-server-three.vercel.app/products?sort=${sort}`)
       .then((res) => res.json())
       .then((data) => {
         setAllProducts(data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [sort]);
 
   const handleOnsubmit = (e) => {
     e.preventDefault();
@@ -56,16 +58,16 @@ const CropAllProducts = () => {
   return (
     <div className="px-5 md:px-0 py-8">
       <h3 className="text-3xl md:text-4xl font-bold text-center text-green-600 mb-6">
-        KrishiLink Farmer’s All Crops
+        KrishiLink Farmer All Crops
       </h3>
 
       <form
         onSubmit={handleOnsubmit}
-        className="flex items-center gap-2 relative justify-center mx-auto w-full md:w-1/2 lg:w-1/3 mb-10"
+        className="flex items-center gap-2 relative justify-center mx-auto w-full md:w-1/2 lg:w-1/3 mb-3"
       >
         <FaSearch className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         <input
-          type="search"
+          type="text"
           name="search"
           placeholder="Search crops..."
           className="w-full py-2 px-12 rounded-full border border-green-600 outline-none focus:ring-2 focus:ring-green-400 transition"
@@ -77,6 +79,26 @@ const CropAllProducts = () => {
           Search
         </button>
       </form>
+      <div className="w-48">
+        <select
+          onChange={(e) => setSort(e.target.value)}
+          defaultValue="Price"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"
+        >
+          <option value="Price" disabled>
+            Per Price
+          </option>
+          <option className="text-gray-800" value="bag">
+            Per Price Bag
+          </option>
+          <option className="text-gray-800" value="ton">
+            Per Price Ton
+          </option>
+          <option className="text-gray-800" value="kg">
+            Per Price Kg
+          </option>
+        </select>
+      </div>
 
       {currentProducts?.length > 0 ? (
         <>
