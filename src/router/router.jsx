@@ -1,22 +1,30 @@
 import { createBrowserRouter } from "react-router";
+
+// Layouts
 import MainLayout from "../layout/MainLayout";
+import DashboardLayout from "../layout/DashboardLayout";
+
+// Pages
 import Home from "../pages/Home/Home";
 import ErrorPage from "../pages/Error/ErrorPage";
 import LoadingSpinner from "../pages/Loading/Loading";
 import Register from "../auth/Register";
 import Login from "../auth/Login";
-import AddCrop from "../pages/AddCrop/AddCrop";
 import Forget from "../auth/Forget";
+import AddCrop from "../pages/AddCrop/AddCrop";
 import CropAllProdcuts from "../pages/CropAllProdcuts/CropAllProdcuts";
 import CropDetails from "../components/CropDetails";
-import PriviteRoute from "./PriviteRoute";
 import MyPosts from "../pages/MyPosts/MyPosts";
 import MyInterests from "../pages/MyInterests/MyInterests";
 import MyProfile from "../pages/MyProfile/MyProfile";
 import UpdateCrop from "../pages/UpdateCrop/UpdateCrop";
 import Contact from "../pages/Contact/Contact";
 
+// Private Route
+import PriviteRoute from "./PriviteRoute";
+
 export const router = createBrowserRouter([
+  // ================= MAIN LAYOUT =================
   {
     path: "/",
     element: <MainLayout />,
@@ -30,27 +38,20 @@ export const router = createBrowserRouter([
           fetch("https://krishilink-server-three.vercel.app/latest-products"),
       },
       {
-        path: "/all-crop",
+        path: "all-crop",
         element: <CropAllProdcuts />,
       },
       {
-        path: "/crops/:id",
+        path: "crops/:id",
         element: <CropDetails />,
       },
       {
-        path: "/contact",
+        path: "contact",
         element: <Contact />,
       },
+
       {
-        path: "/addCrop",
-        element: (
-          <PriviteRoute>
-            <AddCrop />
-          </PriviteRoute>
-        ),
-      },
-      {
-        path: "/update/:id",
+        path: "update/:id",
         element: (
           <PriviteRoute>
             <UpdateCrop />
@@ -58,41 +59,44 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/myPosts",
-        element: (
-          <PriviteRoute>
-            <MyPosts />
-          </PriviteRoute>
-        ),
-      },
-      {
-        path: "/myInterests",
-        element: (
-          <PriviteRoute>
-            <MyInterests />
-          </PriviteRoute>
-        ),
-      },
-      {
-        path: "/myProfile",
-        element: (
-          <PriviteRoute>
-            <MyProfile />
-          </PriviteRoute>
-        ),
-      },
-      {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
-
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
         path: "forget",
         element: <Forget />,
+      },
+    ],
+  },
+
+  // ================= DASHBOARD (ONLY ADD CROP) =================
+  {
+    path: "/dashboard",
+    element: (
+      <PriviteRoute>
+        <DashboardLayout />
+      </PriviteRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <MyProfile />,
+      },
+      {
+        path: "/dashboard/addCrop",
+        element: <AddCrop />,
+      },
+      {
+        path: "/dashboard/my-post",
+        element: <MyPosts />,
+      },
+      {
+        path: "/dashboard/my-interests",
+        element: <MyInterests />,
       },
     ],
   },

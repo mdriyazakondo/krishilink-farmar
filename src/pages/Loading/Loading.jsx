@@ -1,8 +1,4 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { FiLoader } from "react-icons/fi";
-
-export default function LoadingSpinner({ text = "Loading..." }) {
+export default function LoadingSpinner() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="flex items-center justify-between gap-10">

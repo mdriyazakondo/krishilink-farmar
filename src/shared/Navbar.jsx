@@ -11,6 +11,7 @@ import { IoCropSharp } from "react-icons/io5";
 import { AuthContext } from "../context/AuthProvider";
 import Swal from "sweetalert2";
 import { GoSignIn } from "react-icons/go";
+import { MdDashboardCustomize } from "react-icons/md";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -45,10 +46,7 @@ const Navbar = () => {
   ];
 
   const userLinks = [
-    { to: "/addCrop", name: "Add Crop", icon: <MdLibraryAdd /> },
-    { to: "/myPosts", name: "My Posts", icon: <BsPostcardFill /> },
-    { to: "/myInterests", name: "My Interests", icon: <MdInterests /> },
-    { to: "/myProfile", name: "My Profile", icon: <FaUserCheck /> },
+    { to: "/dashboard", name: "Dashboard", icon: <MdDashboardCustomize /> },
   ];
 
   const isActive = (path) =>
