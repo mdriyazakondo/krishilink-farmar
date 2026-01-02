@@ -56,8 +56,6 @@ const Login = () => {
       });
   };
 
-
-
   return (
     <div className="flex items-center justify-center min-h-[80vh] ">
       <div className="flex flex-col justify-center w-full max-w-md rounded-2xl px-8 py-10 border border-slate-800 bg-slate-900 text-white shadow-xl">
@@ -75,6 +73,7 @@ const Login = () => {
             type="email"
             id="email"
             name="email"
+            defaultValue="mdriyazakondo26@gmail.com"
             placeholder="Enter your email"
             className="w-full p-3 mb-4 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
           />
@@ -90,6 +89,7 @@ const Login = () => {
               type={showPassword ? "text" : "password"}
               id="password"
               name="password"
+              defaultValue="Riyaz111!"
               placeholder="Enter your password"
               className="w-full p-3 mb-2 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
             />

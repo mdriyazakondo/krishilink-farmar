@@ -28,14 +28,14 @@ const MyInterests = () => {
         console.error(err);
         setLoading(false);
       });
-  }, [user, sortOrder]); // ✅ এখানে ঠিকভাবে যোগ করা হয়েছে
+  }, [user, sortOrder]);
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
   return (
-    <div className="p-3 sm:p-4 md:p-6 min-h-[50vh] my-6 sm:my-8">
+    <div className="p-3 sm:p-4 md:p-6 min-h-[50vh] my-6 sm:my-8 w-[450px] md:w-[600px] lg:w-[800px] mx-auto xl:w-full">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center ">
         My Interests
       </h2>
@@ -60,7 +60,7 @@ const MyInterests = () => {
         </div>
       ) : (
         <div className="overflow-x-auto w-full">
-          <table className="w-full border border-gray-200 text-sm sm:text-base">
+          <table className="w-full overflow-auto inline-block xl:table border border-gray-200 text-sm sm:text-base">
             <thead className="bg-green-600 text-white">
               <tr className="whitespace-nowrap">
                 <th className="py-2 sm:py-3 px-2 sm:px-4 border-b text-center">

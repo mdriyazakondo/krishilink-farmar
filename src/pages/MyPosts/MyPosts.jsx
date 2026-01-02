@@ -74,14 +74,14 @@ const MyPosts = () => {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="py-10 px-3 sm:px-6 lg:px-10 relative min-h-[56vh] w-[500px]">
+    <div className="py-10 px-3 sm:px-6 lg:px-10 relative min-h-[56vh] w-[450px] md:w-[600px] lg:w-[800px] mx-auto xl:w-full">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 sm:mb-6 text-center text-green-500">
         My All Post
       </h2>
       {products?.length > 0 ? (
         <div className=" ">
-          <table className="w-[300px]!   border border-gray-200 text-sm sm:text-base ">
-            <thead className="bg-green-600 text-white">
+          <table className="w-full overflow-auto inline-block xl:table  border border-gray-200 text-sm sm:text-base ">
+            <thead className="bg-green-600 text-white w-full">
               <tr>
                 <th className="px-4 py-3  whitespace-nowrap text-center">
                   Crop Image
@@ -112,7 +112,7 @@ const MyPosts = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="text-gray-800">
+            <tbody className="text-gray-800 w-full">
               {products.map((crop) => (
                 <tr
                   key={crop._id}

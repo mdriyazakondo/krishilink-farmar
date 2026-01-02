@@ -18,22 +18,38 @@ export default function DashboardLayout() {
       >
         <Link
           to={"/"}
-          className="h-16 flex items-center justify-center text-xl font-bold border-b-2 border-slate-100"
+          className="h-16 flex items-center justify-center text-xl font-bold border-b-2 text-green-600 border-slate-100"
         >
-          My Dashboard
+          KrishiLink Farmer
         </Link>
         <nav className="p-4 space-y-2">
           <Link to={"/dashboard"} onClick={() => setOpen(false)}>
-            <NavItem icon={<FaUserCheck />} label="My Profile" />
+            <NavItem
+              icon={<FaUserCheck />}
+              label="My Profile"
+              path="/dashboard"
+            />
           </Link>
           <Link to={"/dashboard/addCrop"} onClick={() => setOpen(false)}>
-            <NavItem icon={<MdLibraryAdd />} label="Add Crop" />
+            <NavItem
+              icon={<MdLibraryAdd />}
+              label="Add Crop"
+              path="/dashboard/addCrop"
+            />
           </Link>
           <Link to={"/dashboard/my-post"} onClick={() => setOpen(false)}>
-            <NavItem icon={<BsPostcardFill />} label="My Posts" />
+            <NavItem
+              icon={<BsPostcardFill />}
+              label="My Posts"
+              path="/dashboard/my-post"
+            />
           </Link>
           <Link to={"/dashboard/my-interests"} onClick={() => setOpen(false)}>
-            <NavItem icon={<MdInterests />} label="My Interests" />
+            <NavItem
+              icon={<MdInterests />}
+              label="My Interests"
+              path="/dashboard/my-interests"
+            />
           </Link>
         </nav>
       </aside>
@@ -45,7 +61,7 @@ export default function DashboardLayout() {
           <button className="md:hidden" onClick={() => setOpen(!open)}>
             {open ? <FaTimes size={20} /> : <FaBars size={20} />}
           </button>
-          <h1 className="font-semibold text-lg">Dashboard</h1>
+          <h1 className="font-semibold text-2xl ">My Dashboard </h1>
           <Link to={"/dashboard"}>
             <img
               src={user?.photoURL || "https://i.pravatar.cc/40"}
@@ -64,10 +80,14 @@ export default function DashboardLayout() {
   );
 }
 
-function NavItem({ icon, label }) {
+function NavItem({ icon, label, path }) {
   const location = useLocation();
   return (
-    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition">
+    <button
+      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg  transition ${
+        location.pathname === path && "bg-green-500 text-white"
+      }`}
+    >
       <span className="text-lg">{icon}</span>
       <span>{label}</span>
     </button>
