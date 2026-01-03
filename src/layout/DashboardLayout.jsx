@@ -55,13 +55,15 @@ export default function DashboardLayout() {
               path="/dashboard/my-interests"
             />
           </Link>
-          <Link to={"/dashboard/all-users"} onClick={() => setOpen(false)}>
-            <NavItem
-              icon={<FaUser />}
-              label="Users"
-              path="/dashboard/all-users"
-            />
-          </Link>
+          {users.role === "admin" && (
+            <Link to={"/dashboard/all-users"} onClick={() => setOpen(false)}>
+              <NavItem
+                icon={<FaUser />}
+                label="Users"
+                path="/dashboard/all-users"
+              />
+            </Link>
+          )}
         </nav>
       </aside>
 
