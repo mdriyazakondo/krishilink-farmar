@@ -13,11 +13,11 @@ const AgroNews = () => {
     },
     {
       id: 2,
-      title: "Top 5 Crops to Grow This Winter",
+      title: "Best Rabi Crops to Grow in India for Higher Yield",
       image:
-        "https://agriplanting.com/wp-content/uploads/2022/11/Winter-Season-Vegetables-2.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8ylAirWLSChkS8pV-pbz9sE3UcAqO3r5Kug&s",
       description:
-        "Discover which crops are most profitable and easy to maintain during the winter season.",
+        "You've checked with the copyright holder, who has allowed you to use the content.",
       date: "Oct 28, 2025",
     },
     {
@@ -34,10 +34,10 @@ const AgroNews = () => {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-[1500px] mx-auto  text-center">
-        <h2 className="text-3xl font-bold text-green-700 mb-8">
-          📰 Agro News & Blogs
+        <h2 className="text-3xl font-bold text-green-700 mb-3">
+          Agro News & Blogs
         </h2>
-        <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
           Stay updated with the latest agricultural trends, news, and expert
           advice.
         </p>

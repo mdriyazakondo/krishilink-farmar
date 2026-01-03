@@ -25,7 +25,7 @@ const MyProfile = () => {
   }
   return (
     <div className="flex items-center justify-center min-h-[60vh]  px-4">
-      <div className="w-full max-w-md bg-white border border-green-200 rounded-2xl shadow-lg p-8 space-y-5">
+      <div className="w-full max-w-md bg-white border border-green-200 rounded-2xl shadow-lg p-16 space-y-5">
         {/* Profile Image */}
         <h2 className="mb-4 text-center text-3xl font-semibold">
           <span className="text-green-600">Personal</span> Information

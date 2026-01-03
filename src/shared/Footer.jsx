@@ -13,7 +13,7 @@ const Footer = () => {
   return (
     <footer className="bg-slate-900 text-slate-300 py-12 px-6">
       <div className="max-w-[1500px] mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {/* Logo & About */}
           <div>
             <Link
@@ -26,45 +26,11 @@ const Footer = () => {
               KrishiLink Farmer connects farmers, buyers, and agri-enthusiasts
               in one platform. Easily showcase crops.
             </p>
-
-            {/* Social Links */}
-            <div className="flex items-center gap-4 mt-6">
-              <a
-                href="#"
-                className="p-2.5 rounded-full bg-slate-800 hover:bg-green-600 transition"
-              >
-                <FaFacebookF />
-              </a>
-              <a
-                href="#"
-                className="p-2.5 rounded-full bg-slate-800 hover:bg-green-600 transition"
-              >
-                <FaTwitter />
-              </a>
-              <a
-                href="#"
-                className="p-2.5 rounded-full bg-slate-800 hover:bg-green-600 transition"
-              >
-                <FaInstagram />
-              </a>
-              <a
-                href="#"
-                className="p-2.5 rounded-full bg-slate-800 hover:bg-green-600 transition"
-              >
-                <FaLinkedinIn />
-              </a>
-              <a
-                href="#"
-                className="p-2.5 rounded-full bg-slate-800 hover:bg-green-600 transition"
-              >
-                <FaGithub />
-              </a>
-            </div>
           </div>
 
           {/* Company */}
           <div>
-            <h2 className="font-semibold text-white mb-5">Company</h2>
+            <h2 className="font-semibold text-white mb-5">Quick Links</h2>
             <ul className="space-y-2 text-slate-400">
               <li>
                 <a href="#" className="hover:text-green-400 transition">
@@ -72,49 +38,31 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-green-400 transition">
+                <Link
+                  to={"all-crop"}
+                  className="hover:text-green-400 transition"
+                >
                   All
                   <span className="text-xs text-white bg-green-600 rounded-md ml-2 px-2 py-0.5">
                     Crops
                   </span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-green-400 transition">
-                  My Profile
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-green-400 transition">
-                  My Post
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h2 className="font-semibold text-white mb-5">Resources</h2>
-            <ul className="space-y-2 text-slate-400">
-              <li>
-                <a href="#" className="hover:text-green-400 transition">
-                  Register
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-green-400 transition">
-                  Login
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-green-400 transition">
+                <Link
+                  to={"/dashboard/addCrop"}
+                  className="hover:text-green-400 transition"
+                >
                   Add Crop
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-green-400 transition">
-                  My Interests
-                </a>
+                <Link
+                  to={"/dashboard"}
+                  className="hover:text-green-400 transition"
+                >
+                  Profile
+                </Link>
               </li>
             </ul>
           </div>

@@ -37,12 +37,11 @@ const HowItWorks = () => {
   return (
     <section className="my-16 py-8 bg-green-50">
       <div className="max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-3xl font-bold text-green-700 mb-8">
-          🌱 How It Works
+        <h2 className="text-3xl font-bold text-green-700 mb-3">
+          How KrishiLink Works
         </h2>
-        <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-          KrishiLink makes it easy for farmers and buyers to connect,
-          communicate, and grow together.
+        <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+          Follow these simple steps to connect farmers and buyers efficiently.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

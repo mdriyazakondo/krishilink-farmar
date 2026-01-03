@@ -94,7 +94,7 @@ const Navbar = () => {
           to="/"
           className="text-xl lg:text-2xl font-bold text-green-600 flex items-center gap-2"
         >
-          <span className="hidden sm:block">
+          <span className="">
             KrishiLink <span className="">Farmer</span>{" "}
           </span>
         </Link>

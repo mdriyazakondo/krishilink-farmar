@@ -174,7 +174,7 @@ const MyPosts = () => {
             You haven’t made any posts yet.
           </p>
           <Link
-            to="/addCrop"
+            to="/dashboard/addCrop"
             className="border py-2 px-5 bg-green-500 hover:bg-green-600 text-white font-medium text-lg sm:text-xl mt-6 rounded-md flex items-center gap-2 transition duration-200 whitespace-nowrap"
           >
             <FaEdit /> Add Post
