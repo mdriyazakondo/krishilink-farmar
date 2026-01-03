@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -30,17 +30,48 @@ const Login = () => {
       .catch((error) => {
         Swal.fire("Login Failed 😢", error.message, "error");
       });
+
+    const response = await fetch(
+      "https://krishilink-server-three.vercel.app/users",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      }
+    );
+
+    await response.json();
   };
 
   const handleGoogle = () => {
     signInGooleUserFunc()
-      .then((result) => {
+      .then(async (result) => {
         Swal.fire(
           "Login Successful 🎉",
           `Welcome, ${result.user.displayName || "User"}!`,
           "success"
         );
+        const user = result.user;
+        const userData = {
+          name: user?.displayName,
+          email: user.email,
+          photo: user?.photoURL,
+        };
         navigate(location.state?.from?.pathname || "/");
+        const response = await fetch(
+          "https://krishilink-server-three.vercel.app/users",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+          }
+        );
+
+        await response.json();
       })
       .catch((error) => {
         Swal.fire("Login Failed 😢", error.message, "error");

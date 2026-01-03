@@ -4,10 +4,12 @@ import { FaBars, FaTimes, FaUserCheck } from "react-icons/fa";
 import { MdInterests, MdLibraryAdd } from "react-icons/md";
 import { Link, Outlet, useLocation } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
+import useAuth from "../hook/useAuth";
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
   const { user } = use(AuthContext);
+  const { users } = useAuth();
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
@@ -30,13 +32,15 @@ export default function DashboardLayout() {
               path="/dashboard"
             />
           </Link>
-          <Link to={"/dashboard/addCrop"} onClick={() => setOpen(false)}>
-            <NavItem
-              icon={<MdLibraryAdd />}
-              label="Add Crop"
-              path="/dashboard/addCrop"
-            />
-          </Link>
+          {users?.role === "admin" && (
+            <Link to={"/dashboard/addCrop"} onClick={() => setOpen(false)}>
+              <NavItem
+                icon={<MdLibraryAdd />}
+                label="Add Crop"
+                path="/dashboard/addCrop"
+              />
+            </Link>
+          )}
           <Link to={"/dashboard/my-post"} onClick={() => setOpen(false)}>
             <NavItem
               icon={<BsPostcardFill />}

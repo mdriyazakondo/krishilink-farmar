@@ -4,10 +4,12 @@ import { updateProfile } from "firebase/auth";
 import LoadingSpinner from "../Loading/Loading";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaUserEdit, FaShieldAlt, FaLeaf, FaInfoCircle } from "react-icons/fa";
+import useAuth from "../../hook/useAuth";
 
 const MyProfile = () => {
   const { user, loading, setLoading } = use(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const { users } = useAuth();
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ const MyProfile = () => {
             <span className="text-green-600">My</span> Profile
           </h2>
 
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-2">
             <img
               src={user.photoURL}
               alt="Profile"
@@ -47,7 +49,10 @@ const MyProfile = () => {
             />
           </div>
 
-          <div className="text-center mb-6">
+          <div className="text-center mb-6 flex flex-col items-center justify-center">
+            <p className="text-center py-1 px-2 w-20 bg-green-100 text-green-600 rounded-full">
+              {users?.role}
+            </p>
             <h3 className="text-xl font-semibold text-green-700">
               {user.displayName}
             </h3>

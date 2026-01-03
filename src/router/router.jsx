@@ -21,6 +21,7 @@ import UpdateCrop from "../pages/UpdateCrop/UpdateCrop";
 import Contact from "../pages/Contact/Contact";
 
 import PriviteRoute from "./PriviteRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -86,7 +87,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/addCrop",
-        element: <AddCrop />,
+        element: (
+          <AdminRoute>
+            <AddCrop />,
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/my-post",

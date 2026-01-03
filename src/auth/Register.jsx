@@ -14,11 +14,50 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, photo, email, password } = e.target;
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const { name, photo, email, password } = e.target;
 
-    if (!name.value || !photo.value || !email.value || !password.value) {
+  //   if (!name.value || !photo.value || !email.value || !password.value) {
+  //     return Swal.fire(
+  //       "Missing Fields ⚠️",
+  //       "Please fill all fields",
+  //       "warning"
+  //     );
+  //   }
+
+  //   const rules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+  //   if (!rules.test(password.value)) {
+  //     return Swal.fire(
+  //       "Weak Password ⚠️",
+  //       "Password must contain uppercase, lowercase, number & 6+ chars",
+  //       "warning"
+  //     );
+  //   }
+
+  //   createUserFunc(email.value, password.value)
+  //     .then((res) => {
+  //       updateProfile(res.user, {
+  //         displayName: name.value,
+  //         photoURL: photo.value,
+  //       }).then(() => {
+  //         Swal.fire("Success 🎉", "Account created successfully", "success");
+  //         navigate(location.state?.from?.pathname || "/");
+  //       });
+  //     })
+  //     .catch((err) => Swal.fire("Error 😢", err.message, "error"));
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const name = form.name.value.trim();
+    const photo = form.photo.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value;
+
+    if (!name || !photo || !email || !password) {
       return Swal.fire(
         "Missing Fields ⚠️",
         "Please fill all fields",
@@ -26,26 +65,50 @@ const Register = () => {
       );
     }
 
-    const rules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-    if (!rules.test(password.value)) {
+    const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    if (!passwordRules.test(password)) {
       return Swal.fire(
         "Weak Password ⚠️",
-        "Password must contain uppercase, lowercase, number & 6+ chars",
+        "Password must contain uppercase, lowercase, number & minimum 6 characters",
         "warning"
       );
     }
 
-    createUserFunc(email.value, password.value)
-      .then((res) => {
-        updateProfile(res.user, {
-          displayName: name.value,
-          photoURL: photo.value,
-        }).then(() => {
-          Swal.fire("Success 🎉", "Account created successfully", "success");
-          navigate(location.state?.from?.pathname || "/");
-        });
-      })
-      .catch((err) => Swal.fire("Error 😢", err.message, "error"));
+    try {
+      const result = await createUserFunc(email, password);
+      await updateProfile(result.user, {
+        displayName: name,
+        photoURL: photo,
+      });
+
+      const userData = {
+        name,
+        email,
+        photo,
+      };
+
+      const response = await fetch(
+        "https://krishilink-server-three.vercel.app/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Swal.fire("Success 🎉", data.message || "User saved to DB", "success");
+        navigate(location.state?.from?.pathname || "/");
+      } else {
+        Swal.fire("Error 😢", data.message || "Failed to save user", "error");
+      }
+    } catch (error) {
+      Swal.fire("Error 😢", error.message, "error");
+    }
   };
 
   return (
