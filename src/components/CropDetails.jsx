@@ -19,18 +19,10 @@ const CropDetails = () => {
 
     fetch(`https://krishilink-server-three.vercel.app/products/${id}`)
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch product data");
-        }
+        if (!res.ok) throw new Error("Failed to fetch product data");
         return res.json();
       })
-      .then((data) => {
-        if (data && data.name) {
-          setProduct(data);
-        } else {
-          setProduct(null);
-        }
-      })
+      .then((data) => setProduct(data?.name ? data : null))
       .catch((err) => {
         setError(err.message);
         setProduct(null);
@@ -39,85 +31,98 @@ const CropDetails = () => {
   }, [id]);
 
   /* ---------- Loading ---------- */
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  if (loading) return <LoadingSpinner />;
 
-  /* ---------- Error / Not Found ---------- */
+  /* ---------- Error ---------- */
   if (error || !product) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 text-center">
-        <h2 className="text-3xl font-bold text-green-700 mb-3">
-          Product Not Found 😢
+      <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+        <h2 className="text-3xl font-bold text-green-700 mb-2">
+          Product Not Found
         </h2>
-        <p className="text-gray-600">
-          Sorry, we couldn’t find the crop details you were looking for.
+        <p className="text-gray-500">
+          The crop you are looking for does not exist or was removed.
         </p>
       </div>
     );
   }
 
-  /* ---------- UI ---------- */
   return (
     <>
-      <div className="max-w-5xl mx-auto my-10 p-6 bg-gradient-to-br from-green-50 to-white rounded-2xl shadow-lg flex flex-col md:flex-row gap-6">
-        {/* Image */}
-        <div className="w-full md:w-1/2">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full object-cover rounded-lg"
-          />
-        </div>
+      {/* Main Details Section */}
+      <div className="max-w-6xl mx-auto my-10 px-4">
+        <div className="bg-white border border-green-200 rounded-2xl shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+          {/* Image */}
+          <div className="overflow-hidden rounded-xl">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </div>
 
-        {/* Details */}
-        <div className="space-y-2 text-gray-700 w-full md:w-1/2">
-          <h1 className="text-3xl font-bold text-green-700 mb-4">
-            {product.name}
-          </h1>
+          {/* Info */}
+          <div className="space-y-4">
+            <h1 className="text-3xl font-bold text-green-700">
+              {product.name}
+            </h1>
 
-          <p>
-            <span className="font-medium text-green-700">Type:</span>{" "}
-            {product.type}
-          </p>
+            <div className="flex items-center gap-4">
+              <span className="px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
+                {product.type}
+              </span>
+              <span className="text-lg font-semibold text-green-600">
+                ৳{product.pricePerUnit} / {product.unit}
+              </span>
+            </div>
 
-          <p>
-            <span className="font-medium text-green-700">Price:</span>{" "}
-            {product.pricePerUnit} / {product.unit}
-          </p>
+            <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+              <p>
+                <span className="font-medium text-gray-800">Quantity:</span>{" "}
+                {product.quantity}
+              </p>
+              <p>
+                <span className="font-medium text-gray-800">Location:</span>{" "}
+                {product.location}
+              </p>
+            </div>
 
-          <p>
-            <span className="font-medium text-green-700">Quantity:</span>{" "}
-            {product.quantity}
-          </p>
+            {/* Owner */}
+            <div className="border border-green-200 bg-green-50 rounded-xl p-4">
+              <p className="font-medium text-green-700 mb-1">
+                Owner Information
+              </p>
+              <p className="text-sm text-gray-700">
+                {product.owner?.ownerName}
+              </p>
+              <p className="text-sm text-gray-500">
+                {product.owner?.ownerEmail}
+              </p>
+            </div>
 
-          <p>
-            <span className="font-medium text-green-700">Location:</span>{" "}
-            {product.location}
-          </p>
-
-          <p>
-            <span className="font-medium text-green-700">Owner:</span>{" "}
-            {product.owner?.ownerName} ({product.owner?.ownerEmail})
-          </p>
-
-          <p>
-            <span className="font-medium text-green-700">Description:</span>{" "}
-            {product.description}
-          </p>
+            {/* Description */}
+            <div>
+              <p className="font-medium text-green-700 mb-1">Description</p>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {product.description}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Owner vs Interest Section */}
-      {user && product.owner?.ownerEmail === user.email ? (
-        <OwnerTabile
-          interests={product.interests}
-          cropId={product._id}
-          user={user}
-        />
-      ) : (
-        <IntrestFrom crop={product} />
-      )}
+      {/* Owner / Interest Section */}
+      <div className="max-w-6xl mx-auto px-4 mb-16">
+        {user && product.owner?.ownerEmail === user.email ? (
+          <OwnerTabile
+            interests={product.interests}
+            cropId={product._id}
+            user={user}
+          />
+        ) : (
+          <IntrestFrom crop={product} />
+        )}
+      </div>
     </>
   );
 };

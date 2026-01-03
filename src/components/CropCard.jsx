@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router"; // ✅ for navigation
+import { useNavigate } from "react-router";
 
 const CropCard = ({ products }) => {
   const navigate = useNavigate();
@@ -9,40 +9,44 @@ const CropCard = ({ products }) => {
   };
 
   return (
-    <div className="border border-green-300 bg-gradient-to-br from-green-50 to-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-5  my-6">
-      {/* Image */}
-      <div className="overflow-hidden rounded-xl mb-4">
+    <div className="group bg-white border border-green-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
+      {/* Image Section */}
+      <div className="relative overflow-hidden">
         <img
           src={products.image}
           alt={products.name}
-          className="w-full h-64 object-cover transform hover:scale-105 transition-transform duration-500"
+          className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-500"
         />
-      </div>
-
-      <h2 className="text-xl mb-1 font-semibold text-green-600 ">{products.name}</h2>
-
-      <div className="space-y-2 text-gray-700">
-        <div>
-          <span className="font-medium text-green-600">Price per Unit:</span>{" "}
-          {products.pricePerUnit} / {products.unit}
-        </div>
-
-        <div>
-          <span className="font-medium text-green-600">Quantity:</span>{" "}
-          {products.quantity}
-        </div>
-
-        <div>
-          <span className="font-medium text-green-600">Location:</span>{" "}
+        <span className="absolute top-3 left-3 bg-green-600 text-white text-xs px-3 py-1 rounded-full shadow">
+          {products.unit}
+        </span>
+        <span className="absolute top-3 right-3 bg-green-600 text-white text-xs px-3 py-1 rounded-full shadow">
           {products.location}
-        </div>
+        </span>
       </div>
 
-      {/* View Details Button */}
-      <div className="mt-6 text-center w-full">
+      {/* Content */}
+      <div className="p-5 space-y-3">
+        <h2 className="text-lg font-semibold text-gray-800 group-hover:text-green-700 transition">
+          {products.name}
+        </h2>
+
+        {/* Price */}
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-gray-500">Price</p>
+          <p className="text-lg font-bold text-green-600">
+            ৳{products.pricePerUnit}
+            <span className="text-sm font-normal text-gray-500">
+              {" "}
+              / {products.unit}
+            </span>
+          </p>
+        </div>
+
+        {/* Button */}
         <button
           onClick={handleViewDetails}
-          className="px-6 py-2.5 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-full font-medium shadow-md hover:scale-105 hover:shadow-lg transition-transform duration-300 w-full cursor-pointer"
+          className="w-full mt-4 py-2.5 rounded-xl bg-green-600 text-white font-medium hover:bg-green-700 active:scale-95 transition"
         >
           View Details
         </button>

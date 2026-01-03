@@ -24,55 +24,87 @@ const MyProfile = () => {
     return <LoadingSpinner />;
   }
   return (
-    <div className="flex items-center justify-center min-h-[56vh] flex-col ">
-      <div className="flex items-center justify-center flex-col border space-y-3  py-10 px-16 rounded-sm border-green-300 bg-green-100">
-        <img className="rounded-full w-32 h-32" src={user.photoURL} alt="" />
-        <div className="text-center mt-2 text-green-600">
-          <h4>{user.displayName}</h4>
-          <p>{user.email}</p>
+    <div className="flex items-center justify-center min-h-[60vh]  px-4">
+      <div className="w-full max-w-md bg-white border border-green-200 rounded-2xl shadow-lg p-8 space-y-5">
+        {/* Profile Image */}
+        <h2 className="mb-4 text-center text-3xl font-semibold">
+          <span className="text-green-600">Personal</span> Information
+        </h2>
+        <div className="flex justify-center">
+          <img
+            src={user.photoURL}
+            alt="Profile"
+            className="w-32 h-32 rounded-full object-cover ring-4 ring-green-300"
+          />
         </div>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`px-6 py-2 bg-green-600 text-white cursor-pointer ${
-            isOpen ? "hidden" : "flex"
-          }`}
-        >
-          Update
-        </button>
-        <form
-          onSubmit={handleUpdate}
-          className={`space-y-3 ${isOpen ? "block" : "hidden"}`}
-        >
-          <div className="w-[280px]">
-            <label>Your Name</label>
-            <input
-              type="text"
-              name="name"
-              defaultValue={user.displayName}
-              placeholder="Your Name"
-              required
-              className="border w-full rounded-md outline-none  py-2 px-4 border-green-500"
-            />
-          </div>
-          <div className="w-[280px]">
-            <label>Your Photo</label>
-            <input
-              type="text"
-              name="photo"
-              defaultValue={user.photoURL}
-              required
-              placeholder="Your Photo"
-              className="border w-full rounded-md outline-none  py-2 px-4 border-green-500"
-            />
-          </div>
 
+        {/* User Info */}
+        <div className="text-center space-y-1">
+          <h3 className="text-xl font-semibold text-green-700">
+            {user.displayName}
+          </h3>
+          <p className="text-sm text-gray-500">{user.email}</p>
+        </div>
+
+        {/* Update Button */}
+        {!isOpen && (
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="px-4 py-2 w-full bg-green-600 text-white rounded-md cursor-pointer"
+            onClick={() => setIsOpen(true)}
+            className="w-full py-2 cursor-pointer bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition"
           >
-            Update
+            Update Profile
           </button>
-        </form>
+        )}
+
+        {/* Update Form */}
+        {isOpen && (
+          <form onSubmit={handleUpdate} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-green-700 mb-1">
+                Your Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                defaultValue={user.displayName}
+                required
+                placeholder="Enter your name"
+                className="w-full border border-green-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-green-700 mb-1">
+                Photo URL
+              </label>
+              <input
+                type="text"
+                name="photo"
+                defaultValue={user.photoURL}
+                required
+                placeholder="Enter photo URL"
+                className="w-full border border-green-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+              />
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="submit"
+                className="flex-1 py-2 cursor-pointer bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+              >
+                Save
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="flex-1 py-2 cursor-pointer border border-green-500 text-green-600 rounded-lg hover:bg-green-50 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

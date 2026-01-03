@@ -20,10 +20,7 @@ const Footer = () => {
               to={"/"}
               className="text-2xl font-bold text-green-500 flex items-center gap-2"
             >
-              <span className="px-2 py-1 bg-green-500 text-white rounded-md">
-                <GiFarmer className="h-6 w-6" />
-              </span>
-              KrishiLink-Farmer’s
+              KrishiLink Farmer
             </Link>
             <p className="mt-4 text-sm leading-6 text-slate-400">
               KrishiLink Farmer connects farmers, buyers, and agri-enthusiasts

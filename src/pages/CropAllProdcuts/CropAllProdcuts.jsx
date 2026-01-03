@@ -5,42 +5,35 @@ import { FaSearch } from "react-icons/fa";
 
 const CropAllProducts = () => {
   const [allProduct, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   const [sort, setSort] = useState("");
-  console.log(sort);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
 
+  /* ---------- Fetch Products ---------- */
   useEffect(() => {
-    setLoading(true);
     fetch(`https://krishilink-server-three.vercel.app/products?sort=${sort}`)
       .then((res) => res.json())
-      .then((data) => {
-        setAllProducts(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      .then((data) => setAllProducts(data));
   }, [sort]);
 
+  /* ---------- Search ---------- */
   const handleOnsubmit = (e) => {
     e.preventDefault();
     const search = e.target.search.value.trim();
     if (!search) return;
-
-    setLoading(true);
     fetch(`https://krishilink-server-three.vercel.app/search?search=${search}`)
       .then((res) => res.json())
       .then((data) => {
         setAllProducts(data);
         setCurrentPage(1);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      });
   };
 
-  if (loading) return <LoadingSpinner />;
+  // if (loading) return <LoadingSpinner />;
 
+  /* ---------- Pagination ---------- */
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = allProduct.slice(
@@ -50,69 +43,73 @@ const CropAllProducts = () => {
 
   const totalPages = Math.ceil(allProduct.length / productsPerPage);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <div className="px-5 md:px-0 py-8">
-      <h3 className="text-3xl md:text-4xl font-bold text-center text-green-600 mb-6">
-        KrishiLink Farmer All Crops
-      </h3>
+    <div className=" px-4 py-10">
+      {/* Heading */}
+      <h2 className="text-3xl md:text-4xl font-bold text-center text-green-700 mb-8">
+        All Available Crops
+      </h2>
 
-      <form
-        onSubmit={handleOnsubmit}
-        className="flex items-center gap-2 relative justify-center mx-auto w-full md:w-1/2 lg:w-1/3 mb-3"
-      >
-        <FaSearch className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-        <input
-          type="text"
-          name="search"
-          placeholder="Search crops..."
-          className="w-full py-2 px-12 rounded-full border border-green-600 outline-none focus:ring-2 focus:ring-green-400 transition"
-        />
-        <button
-          type="submit"
-          className="absolute right-0 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-r-full transition cursor-pointer"
+      {/* Search & Sort */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+        {/* Search */}
+        <form
+          onSubmit={handleOnsubmit}
+          className="relative w-full md:w-1/2 lg:w-1/3"
         >
-          Search
-        </button>
-      </form>
-      <div className="w-48">
-        <select
-          onChange={(e) => setSort(e.target.value)}
-          defaultValue="Price"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400"
-        >
-          <option value="Price" disabled>
-            Per Price
-          </option>
-          <option className="text-gray-800" value="bag">
-            Per Price Bag
-          </option>
-          <option className="text-gray-800" value="ton">
-            Per Price Ton
-          </option>
-          <option className="text-gray-800" value="kg">
-            Per Price Kg
-          </option>
-        </select>
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            name="search"
+            placeholder="Search crops..."
+            className="w-full py-2.5 pl-11 pr-24 rounded-full border border-green-500 focus:ring-2 focus:ring-green-400 outline-none"
+          />
+          <button
+            type="submit"
+            className="absolute right-0 top-0 h-full px-6 rounded-r-full bg-green-600 text-white hover:bg-green-700 transition"
+          >
+            Search
+          </button>
+        </form>
+
+        {/* Sort */}
+        <div className="w-full md:w-56">
+          <select
+            onChange={(e) => setSort(e.target.value)}
+            defaultValue=""
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-400"
+          >
+            <option value="" disabled>
+              Sort by Price
+            </option>
+            <option value="bag">Price per Bag</option>
+            <option value="ton">Price per Ton</option>
+            <option value="kg">Price per Kg</option>
+          </select>
+        </div>
       </div>
 
-      {currentProducts?.length > 0 ? (
+      {/* Products */}
+      {currentProducts.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {currentProducts.map((product) => (
               <CropCard key={product._id} products={product} />
             ))}
           </div>
-          <div className="flex justify-center mt-10 gap-2 flex-wrap">
+
+          {/* Pagination */}
+          <div className="flex justify-center mt-12 gap-2 flex-wrap">
             {Array.from({ length: totalPages }, (_, i) => (
               <button
                 key={i}
                 onClick={() => handlePageChange(i + 1)}
-                className={`px-4 py-2 rounded-md border transition ${
+                className={`px-4 py-2 rounded-lg border transition ${
                   currentPage === i + 1
                     ? "bg-green-600 text-white border-green-600"
                     : "bg-white border-gray-300 hover:bg-green-100"
@@ -124,9 +121,11 @@ const CropAllProducts = () => {
           </div>
         </>
       ) : (
-        <p className="text-center col-span-full flex items-center justify-center min-h-[60vh] text-4xl md:text-5xl font-bold text-green-600">
-          No crops found
-        </p>
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <p className="text-3xl font-semibold text-green-600">
+            No crops found 🌾
+          </p>
+        </div>
       )}
     </div>
   );

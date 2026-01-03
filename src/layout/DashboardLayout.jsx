@@ -84,7 +84,7 @@ function NavItem({ icon, label, path }) {
   const location = useLocation();
   return (
     <button
-      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg  transition ${
+      className={`w-full cursor-pointer flex items-center gap-3 px-3 py-2 rounded-lg  transition ${
         location.pathname === path && "bg-green-500 text-white"
       }`}
     >

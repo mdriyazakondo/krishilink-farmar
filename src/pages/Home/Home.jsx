@@ -5,6 +5,7 @@ import AboutSection from "../../components/AboutSection";
 import HowItWorks from "../../components/HowItWorks";
 import AgroNews from "../../components/AgroNews";
 import Testimonials from "../../components/Testimonials";
+import Newsletter from "../../components/Newsletter";
 
 const Home = () => {
   const products = useLoaderData();
@@ -31,6 +32,7 @@ const Home = () => {
       <HowItWorks />
       <AgroNews />
       <Testimonials />
+      <Newsletter />
     </div>
   );
 };
