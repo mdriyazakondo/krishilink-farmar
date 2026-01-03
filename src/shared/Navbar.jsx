@@ -43,6 +43,11 @@ const Navbar = () => {
     { to: "/", name: "Home", icon: <FaHome /> },
     { to: "/all-crop", name: "All Crops", icon: <IoCropSharp /> },
     { to: "/contact", name: "Contact Us", icon: <IoCropSharp /> },
+    {
+      to: "/dashboard/my-interests",
+      name: "My Interest",
+      icon: <MdInterests />,
+    },
   ];
 
   const userLinks = [
