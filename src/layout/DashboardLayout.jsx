@@ -41,13 +41,16 @@ export default function DashboardLayout() {
               />
             </Link>
           )}
-          <Link to={"/dashboard/my-post"} onClick={() => setOpen(false)}>
-            <NavItem
-              icon={<BsPostcardFill />}
-              label="My Posts"
-              path="/dashboard/my-post"
-            />
-          </Link>
+          {users?.role === "admin" && (
+            <Link to={"/dashboard/my-post"} onClick={() => setOpen(false)}>
+              <NavItem
+                icon={<BsPostcardFill />}
+                label="My Posts"
+                path="/dashboard/my-post"
+              />
+            </Link>
+          )}
+
           <Link to={"/dashboard/my-interests"} onClick={() => setOpen(false)}>
             <NavItem
               icon={<MdInterests />}
