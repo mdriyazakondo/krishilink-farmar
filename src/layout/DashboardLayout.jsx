@@ -1,6 +1,6 @@
 import { use, useState } from "react";
 import { BsPostcardFill } from "react-icons/bs";
-import { FaBars, FaTimes, FaUserCheck } from "react-icons/fa";
+import { FaBars, FaTimes, FaUser, FaUserCheck } from "react-icons/fa";
 import { MdInterests, MdLibraryAdd } from "react-icons/md";
 import { Link, Outlet, useLocation } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
@@ -53,6 +53,13 @@ export default function DashboardLayout() {
               icon={<MdInterests />}
               label="My Interests"
               path="/dashboard/my-interests"
+            />
+          </Link>
+          <Link to={"/dashboard/all-users"} onClick={() => setOpen(false)}>
+            <NavItem
+              icon={<FaUser />}
+              label="Users"
+              path="/dashboard/all-users"
             />
           </Link>
         </nav>

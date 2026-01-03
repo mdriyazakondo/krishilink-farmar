@@ -13,44 +13,10 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const { name, photo, email, password } = e.target;
-
-  //   if (!name.value || !photo.value || !email.value || !password.value) {
-  //     return Swal.fire(
-  //       "Missing Fields ⚠️",
-  //       "Please fill all fields",
-  //       "warning"
-  //     );
-  //   }
-
-  //   const rules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-  //   if (!rules.test(password.value)) {
-  //     return Swal.fire(
-  //       "Weak Password ⚠️",
-  //       "Password must contain uppercase, lowercase, number & 6+ chars",
-  //       "warning"
-  //     );
-  //   }
-
-  //   createUserFunc(email.value, password.value)
-  //     .then((res) => {
-  //       updateProfile(res.user, {
-  //         displayName: name.value,
-  //         photoURL: photo.value,
-  //       }).then(() => {
-  //         Swal.fire("Success 🎉", "Account created successfully", "success");
-  //         navigate(location.state?.from?.pathname || "/");
-  //       });
-  //     })
-  //     .catch((err) => Swal.fire("Error 😢", err.message, "error"));
-  // };
+  const BACKEND_URL = "https://krishilink-server-three.vercel.app";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const form = e.target;
     const name = form.name.value.trim();
     const photo = form.photo.value.trim();
@@ -64,7 +30,6 @@ const Register = () => {
         "warning"
       );
     }
-
     const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
     if (!passwordRules.test(password)) {
       return Swal.fire(
@@ -111,6 +76,43 @@ const Register = () => {
     }
   };
 
+  const handleGoogle = async () => {
+    try {
+      const result = await signInGooleUserFunc();
+      const user = result.user;
+
+      const userData = {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      };
+
+      // Save to backend
+      const response = await fetch(`${BACKEND_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || "Failed to save user");
+
+      Swal.fire(
+        "Login Successful 🎉",
+        `Welcome, ${user.displayName || "User"}!`,
+        "success"
+      );
+
+      // Navigate after backend save
+      navigate(location.state?.from?.pathname || "/");
+    } catch (error) {
+      console.error("Google login error:", error);
+      Swal.fire("Login Failed 😢", error.message, "error");
+    }
+  };
   return (
     <div className="min-h-[85vh] flex items-center justify-center  px-4">
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 ">
@@ -172,7 +174,7 @@ const Register = () => {
           </form>
 
           <button
-            onClick={signInGooleUserFunc}
+            onClick={handleGoogle}
             className="w-full cursor-pointer mt-4 py-3 rounded-lg border border-green-600 text-green-700 font-medium hover:bg-green-600 hover:text-white transition-all duration-300"
           >
             Continue with Google

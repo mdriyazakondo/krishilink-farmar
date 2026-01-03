@@ -22,6 +22,7 @@ import Contact from "../pages/Contact/Contact";
 
 import PriviteRoute from "./PriviteRoute";
 import AdminRoute from "./AdminRoute";
+import UsersTable from "../pages/AllUserPage/Users";
 
 export const router = createBrowserRouter([
   {
@@ -100,6 +101,14 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/my-interests",
         element: <MyInterests />,
+      },
+      {
+        path: "/dashboard/all-users",
+        element: (
+          <AdminRoute>
+            <UsersTable />
+          </AdminRoute>
+        ),
       },
     ],
   },
