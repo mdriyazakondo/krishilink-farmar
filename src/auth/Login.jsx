@@ -4,6 +4,8 @@ import { AuthContext } from "../context/AuthProvider";
 import Swal from "sweetalert2";
 import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { FaLeaf, FaUsers, FaShieldAlt } from "react-icons/fa";
 
 const Login = () => {
   const { signInUserFunc, signInGooleUserFunc } = use(AuthContext);
@@ -15,126 +17,139 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+
     signInUserFunc(email, password)
       .then((result) => {
-        Swal.fire({
-          title: "Login Successful 🎉",
-          text: `Welcome, ${result.user.displayName || "User"}!`,
-          icon: "success",
-          confirmButtonColor: "#6366F1",
-        });
+        Swal.fire(
+          "Login Successful 🎉",
+          `Welcome, ${result.user.displayName || "User"}!`,
+          "success"
+        );
         navigate(location.state?.from?.pathname || "/");
       })
       .catch((error) => {
-        Swal.fire({
-          title: "Login Failed 😢",
-          text: error.message,
-          icon: "error",
-          confirmButtonColor: "#EF4444",
-        });
+        Swal.fire("Login Failed 😢", error.message, "error");
       });
   };
 
   const handleGoogle = () => {
     signInGooleUserFunc()
       .then((result) => {
-        Swal.fire({
-          title: "Login Successful 🎉",
-          text: `Welcome, ${result.user.displayName || "User"}!`,
-          icon: "success",
-          confirmButtonColor: "#6366F1",
-        });
+        Swal.fire(
+          "Login Successful 🎉",
+          `Welcome, ${result.user.displayName || "User"}!`,
+          "success"
+        );
         navigate(location.state?.from?.pathname || "/");
       })
       .catch((error) => {
-        Swal.fire({
-          title: "Login Failed 😢",
-          text: error.message,
-          icon: "error",
-          confirmButtonColor: "#EF4444",
-        });
+        Swal.fire("Login Failed 😢", error.message, "error");
       });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh] ">
-      <div className="flex flex-col justify-center w-full max-w-md rounded-2xl px-8 py-10 border border-slate-800 bg-slate-900 text-white shadow-xl">
-        <h2 className="text-3xl font-semibold text-center">Sign In</h2>
-        <p className="text-slate-400 mt-1 text-center">Login to your account</p>
+    <div className="min-h-[85vh] flex items-center justify-center px-4">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 ">
+        {/* LEFT – LOGIN FORM */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-l-2xl shadow-xl border border-green-100 p-8"
+        >
+          <h2 className="text-3xl font-bold text-center text-green-700">
+            Sign In
+          </h2>
+          <p className="text-center text-slate-500 mt-1">
+            Login to your KrishiLink account
+          </p>
 
-        <form onSubmit={handleSubmit} className="mt-8">
-          <label
-            htmlFor="email"
-            className="block mb-1 font-medium text-slate-300"
-          >
-            Email address
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            defaultValue="mdriyazakondo26@gmail.com"
-            placeholder="Enter your email"
-            className="w-full p-3 mb-4 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-          />
-
-          <label
-            htmlFor="password"
-            className="block mb-1 font-medium text-slate-300"
-          >
-            Password
-          </label>
-          <div className="flex items-center relative">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              name="password"
-              defaultValue="Riyaz111!"
-              placeholder="Enter your password"
-              className="w-full p-3 mb-2 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              type="email"
+              name="email"
+              defaultValue={"mdriyazakondo26@gmail.com"}
+              placeholder="Email Address"
+              className="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 outline-none"
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-2/3 text-slate-400 hover:text-green-500"
-            >
-              {showPassword ? (
-                <IoEyeOutline className="w-6 h-6 cursor-pointer" />
-              ) : (
-                <FaRegEyeSlash className="w-6 h-6 cursor-pointer" />
-              )}
-            </button>
-          </div>
 
-          <div className="text-right mb-6">
-            <Link
-              to={"/forget"}
-              className="text-sm font-medium text-green-500 hover:text-green-400"
-            >
-              Forgot password?
-            </Link>
-          </div>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                defaultValue={"Riyaz111!"}
+                placeholder="Password"
+                className="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 outline-none"
+              />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 cursor-pointer text-slate-500"
+              >
+                {showPassword ? (
+                  <IoEyeOutline size={22} />
+                ) : (
+                  <FaRegEyeSlash size={22} />
+                )}
+              </span>
+            </div>
+
+            <div className="text-right">
+              <Link to="/forget" className="text-sm text-green-600 font-medium">
+                Forgot password?
+              </Link>
+            </div>
+
+            <button className="w-full cursor-pointer py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition">
+              Sign In
+            </button>
+          </form>
 
           <button
-            type="submit"
-            className="w-full px-4 py-3 font-medium text-white bg-green-600 rounded-lg cursor-pointer hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            onClick={handleGoogle}
+            className="w-full mt-4 py-3 cursor-pointer rounded-lg border border-green-600 text-green-700 font-medium hover:bg-green-600 hover:text-white transition-all duration-300"
           >
-            Sign In
+            Continue with Google
           </button>
-          <p className="my-3 text-right text-sm font-medium flex gap-2 items-end justify-end">
-            please create user ?{" "}
-            <Link to={"/register"} className="text-green-500">
+
+          <p className="text-center text-slate-500 mt-6 text-sm">
+            Don’t have an account?{" "}
+            <Link to="/register" className="text-green-600 font-semibold">
               Sign Up
             </Link>
           </p>
-        </form>
+        </motion.div>
 
-        <button
-          onClick={handleGoogle}
-          className="full px-4 py-3 font-medium text-white bg-green-600 rounded-lg cursor-pointer hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="hidden md:flex flex-col justify-center bg-green-600 text-white rounded-r-2xl p-10"
         >
-          Google Login
-        </button>
+          <h3 className="text-3xl font-bold mb-6">Welcome Back </h3>
+
+          <div className="space-y-5">
+            <div className="flex items-center gap-4">
+              <FaLeaf className="text-3xl" />
+              <p className="text-lg">
+                Stay connected with the farming community
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <FaUsers className="text-3xl" />
+              <p className="text-lg">Access buyers, sellers & crop interests</p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <FaShieldAlt className="text-3xl" />
+              <p className="text-lg">Secure & trusted farmer platform</p>
+            </div>
+          </div>
+
+          <p className="mt-8 text-green-100 text-sm">
+            KrishiLink – Smart Farming Starts Here
+          </p>
+        </motion.div>
       </div>
     </div>
   );

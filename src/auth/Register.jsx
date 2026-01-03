@@ -5,6 +5,8 @@ import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { FaLeaf, FaTractor, FaUsers } from "react-icons/fa";
 
 const Register = () => {
   const { createUserFunc, signInGooleUserFunc } = useContext(AuthContext);
@@ -14,214 +16,149 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
-    const photo = e.target.photo.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    const { name, photo, email, password } = e.target;
 
-    if (!name || !photo || !email || !password) {
-      Swal.fire({
-        title: "Missing Fields ⚠️",
-        text: "Please fill in all fields.",
-        icon: "warning",
-        confirmButtonColor: "#F59E0B",
-      });
-      return;
+    if (!name.value || !photo.value || !email.value || !password.value) {
+      return Swal.fire(
+        "Missing Fields ⚠️",
+        "Please fill all fields",
+        "warning"
+      );
     }
 
-    // Password validation
-    const uppercasePattern = /[A-Z]/;
-    const lowercasePattern = /[a-z]/;
-    const numberPattern = /[0-9]/;
-
-    if (!uppercasePattern.test(password)) {
-      Swal.fire({
-        title: "Weak Password ⚠️",
-        text: "Password must contain at least one uppercase letter.",
-        icon: "warning",
-        confirmButtonColor: "#F59E0B",
-      });
-      return;
-    } else if (!lowercasePattern.test(password)) {
-      Swal.fire({
-        title: "Weak Password ⚠️",
-        text: "Password must contain at least one lowercase letter.",
-        icon: "warning",
-        confirmButtonColor: "#F59E0B",
-      });
-      return;
-    } else if (!numberPattern.test(password)) {
-      Swal.fire({
-        title: "Weak Password ⚠️",
-        text: "Password must contain at least one number.",
-        icon: "warning",
-        confirmButtonColor: "#F59E0B",
-      });
-      return;
-    } else if (password.length < 6) {
-      Swal.fire({
-        title: "Weak Password ⚠️",
-        text: "Password must be at least 6 characters long.",
-        icon: "warning",
-        confirmButtonColor: "#F59E0B",
-      });
-      return;
+    const rules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    if (!rules.test(password.value)) {
+      return Swal.fire(
+        "Weak Password ⚠️",
+        "Password must contain uppercase, lowercase, number & 6+ chars",
+        "warning"
+      );
     }
 
-    createUserFunc(email, password)
-      .then((result) => {
-        const user = result.user;
-        updateProfile(user, { displayName: name, photoURL: photo })
-          .then(() => {
-            Swal.fire({
-              title: "Account Created 🎉",
-              text: `Welcome, ${name}!`,
-              icon: "success",
-              confirmButtonColor: "#6366F1",
-            });
-            navigate(location.state?.from?.pathname || "/");
-          })
-          .catch((error) => {
-            Swal.fire({
-              title: "Profile Update Failed 😢",
-              text: error.message,
-              icon: "error",
-              confirmButtonColor: "#EF4444",
-            });
-          });
+    createUserFunc(email.value, password.value)
+      .then((res) => {
+        updateProfile(res.user, {
+          displayName: name.value,
+          photoURL: photo.value,
+        }).then(() => {
+          Swal.fire("Success 🎉", "Account created successfully", "success");
+          navigate(location.state?.from?.pathname || "/");
+        });
       })
-      .catch((error) => {
-        Swal.fire({
-          title: "Sign Up Failed 😢",
-          text: error.message,
-          icon: "error",
-          confirmButtonColor: "#EF4444",
-        });
-      });
-  };
-
-  const handleGoogle = () => {
-    signInGooleUserFunc()
-      .then((result) => {
-        Swal.fire({
-          title: "Login Successful 🎉",
-          text: `Welcome, ${result.user.displayName || "User"}!`,
-          icon: "success",
-          confirmButtonColor: "#6366F1",
-        });
-        navigate(location.state?.from?.pathname || "/");
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Login Failed 😢",
-          text: error.message,
-          icon: "error",
-          confirmButtonColor: "#EF4444",
-        });
-      });
+      .catch((err) => Swal.fire("Error 😢", err.message, "error"));
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[90vh]">
-      <div className="flex flex-col justify-center w-full max-w-md rounded-2xl px-8 py-10 border border-slate-800 bg-slate-900 text-white shadow-xl">
-        <h2 className="text-3xl font-semibold text-center">Create Account</h2>
-        <p className="text-slate-400 mt-1 text-center">
-          Register to get started
-        </p>
+    <div className="min-h-[85vh] flex items-center justify-center  px-4">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 ">
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white  md:rounded-l-2xl shadow-xl border border-green-100 p-8"
+        >
+          <h2 className="text-3xl font-bold text-center text-green-700">
+            Create Account
+          </h2>
+          <p className="text-center text-slate-500 mt-1">
+            Join KrishiLink Farmer Platform
+          </p>
 
-        <form onSubmit={handleSubmit} className="mt-8">
-          <label
-            htmlFor="name"
-            className="block mb-1 font-medium text-slate-300"
-          >
-            Your Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Enter your name"
-            className="w-full p-3 mb-4 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-          />
-
-          <label
-            htmlFor="photo"
-            className="block mb-1 font-medium text-slate-300"
-          >
-            Photo URL
-          </label>
-          <input
-            type="text"
-            id="photo"
-            name="photo"
-            placeholder="Enter your photo URL"
-            className="w-full p-3 mb-4 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-          />
-
-          <label
-            htmlFor="email"
-            className="block mb-1 font-medium text-slate-300"
-          >
-            Email address
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            className="w-full p-3 mb-4 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-          />
-
-          <label
-            htmlFor="password"
-            className="block mb-1 font-medium text-slate-300"
-          >
-            Password
-          </label>
-          <div className="flex items-center relative">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              className="w-full p-3 mb-2 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              name="name"
+              placeholder="Full Name"
+              className="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 outline-none"
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-2/3 text-slate-400 hover:text-green-500"
-            >
-              {showPassword ? (
-                <IoEyeOutline className="w-6 h-6 cursor-pointer" />
-              ) : (
-                <FaRegEyeSlash className="w-6 h-6 cursor-pointer" />
-              )}
+
+            <input
+              name="photo"
+              placeholder="Profile Photo URL"
+              className="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 outline-none"
+            />
+
+            <input
+              name="email"
+              type="email"
+              placeholder="Email Address"
+              className="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 outline-none"
+            />
+
+            <div className="relative">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 outline-none"
+              />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 cursor-pointer text-slate-500"
+              >
+                {showPassword ? (
+                  <IoEyeOutline size={22} />
+                ) : (
+                  <FaRegEyeSlash size={22} />
+                )}
+              </span>
+            </div>
+
+            <button className="w-full py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition">
+              Create Account
             </button>
-          </div>
+          </form>
 
           <button
-            type="submit"
-            className="w-full px-4 py-3 font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            onClick={signInGooleUserFunc}
+            className="w-full cursor-pointer mt-4 py-3 rounded-lg border border-green-600 text-green-700 font-medium hover:bg-green-600 hover:text-white transition-all duration-300"
           >
-            Sign Up
+            Continue with Google
           </button>
 
-          <p className="text-right text-slate-400 text-sm mt-6">
+          <p className="text-center text-slate-500 mt-6 text-sm">
             Already have an account?{" "}
-            <Link
-              to={"/login"}
-              className="text-green-500 hover:text-green-400 font-medium"
-            >
+            <Link to="/login" className="text-green-600 font-semibold">
               Sign In
             </Link>
           </p>
-        </form>
-        <button
-          onClick={handleGoogle}
-          className="full px-4 py-3 font-medium text-white bg-green-600 rounded-lg cursor-pointer hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition mt-4"
+        </motion.div>
+
+        {/* RIGHT – INFORMATION */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="hidden md:flex flex-col justify-center bg-green-600 text-white rounded-r-2xl p-10"
         >
-          Google Login
-        </button>
+          <h3 className="text-3xl font-bold mb-6">Why Join KrishiLink?</h3>
+
+          <div className="space-y-5">
+            <div className="flex items-center gap-4">
+              <FaLeaf className="text-3xl" />
+              <p className="text-lg">
+                Connect directly with trusted buyers and sellers
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <FaTractor className="text-3xl" />
+              <p className="text-lg">
+                Manage crops, prices, and interests easily
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <FaUsers className="text-3xl" />
+              <p className="text-lg">
+                Build a strong digital farming community
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-8 text-green-100 text-sm">
+            Empowering farmers with technology
+          </p>
+        </motion.div>
       </div>
     </div>
   );
