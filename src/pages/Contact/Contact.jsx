@@ -1,9 +1,9 @@
 import { useState } from "react";
+import { FaXTwitter } from "react-icons/fa6";
 import Swal from "sweetalert2";
 import {
   FaFacebookF,
   FaLinkedinIn,
-  FaTwitter,
   FaWhatsapp,
   FaEnvelope,
   FaPhoneAlt,
@@ -88,7 +88,7 @@ const Contact = () => {
                 href="#"
                 className="p-3 bg-green-100 text-green-700 rounded-full hover:bg-green-600 hover:text-white transition"
               >
-                <FaTwitter />
+                <FaXTwitter />
               </a>
               <a
                 href="#"

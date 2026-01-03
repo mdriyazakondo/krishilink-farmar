@@ -5,20 +5,21 @@ import { FaSearch } from "react-icons/fa";
 
 const CropAllProducts = () => {
   const [allProduct, setAllProducts] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const [sort, setSort] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
 
-  /* ---------- Fetch Products ---------- */
   useEffect(() => {
+    setLoading(true);
     fetch(`https://krishilink-server-three.vercel.app/products?sort=${sort}`)
       .then((res) => res.json())
-      .then((data) => setAllProducts(data));
+      .then((data) => {
+        setAllProducts(data), setLoading(false);
+      });
   }, [sort]);
 
-  /* ---------- Search ---------- */
   const handleOnsubmit = (e) => {
     e.preventDefault();
     const search = e.target.search.value.trim();
@@ -31,9 +32,6 @@ const CropAllProducts = () => {
       });
   };
 
-  // if (loading) return <LoadingSpinner />;
-
-  /* ---------- Pagination ---------- */
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = allProduct.slice(
@@ -43,6 +41,8 @@ const CropAllProducts = () => {
 
   const totalPages = Math.ceil(allProduct.length / productsPerPage);
 
+  if (loading) return <LoadingSpinner />;
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -50,14 +50,11 @@ const CropAllProducts = () => {
 
   return (
     <div className=" px-4 py-10">
-      {/* Heading */}
       <h2 className="text-3xl md:text-4xl font-bold text-center text-green-700 mb-8">
         All Available Crops
       </h2>
 
-      {/* Search & Sort */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
-        {/* Search */}
         <form
           onSubmit={handleOnsubmit}
           className="relative w-full md:w-1/2 lg:w-1/3"
@@ -77,7 +74,6 @@ const CropAllProducts = () => {
           </button>
         </form>
 
-        {/* Sort */}
         <div className="w-full md:w-56">
           <select
             onChange={(e) => setSort(e.target.value)}
@@ -87,14 +83,13 @@ const CropAllProducts = () => {
             <option value="" disabled>
               Sort by Price
             </option>
-            <option value="bag">Price per Bag</option>
-            <option value="ton">Price per Ton</option>
-            <option value="kg">Price per Kg</option>
+            <option value="bag">Price Per Bag</option>
+            <option value="ton">Price Per Ton</option>
+            <option value="kg">Price Per Kg</option>
           </select>
         </div>
       </div>
 
-      {/* Products */}
       {currentProducts.length > 0 ? (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -103,7 +98,6 @@ const CropAllProducts = () => {
             ))}
           </div>
 
-          {/* Pagination */}
           <div className="flex justify-center mt-12 gap-2 flex-wrap">
             {Array.from({ length: totalPages }, (_, i) => (
               <button
@@ -123,7 +117,7 @@ const CropAllProducts = () => {
       ) : (
         <div className="flex items-center justify-center min-h-[50vh]">
           <p className="text-3xl font-semibold text-green-600">
-            No crops found 🌾
+            No crops found
           </p>
         </div>
       )}

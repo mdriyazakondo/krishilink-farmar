@@ -20,11 +20,9 @@ import MyProfile from "../pages/MyProfile/MyProfile";
 import UpdateCrop from "../pages/UpdateCrop/UpdateCrop";
 import Contact from "../pages/Contact/Contact";
 
-// Private Route
 import PriviteRoute from "./PriviteRoute";
 
 export const router = createBrowserRouter([
-  // ================= MAIN LAYOUT =================
   {
     path: "/",
     element: <MainLayout />,

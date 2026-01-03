@@ -27,13 +27,10 @@ const CropCard = ({ products }) => {
 
       {/* Content */}
       <div className="p-5 space-y-3">
-        <h2 className="text-lg font-semibold text-gray-800 group-hover:text-green-700 transition">
-          {products.name}
-        </h2>
-
-        {/* Price */}
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-500">Price</p>
+          <h2 className="text-lg font-semibold text-gray-800 group-hover:text-green-700 transition">
+            {products.name}
+          </h2>
           <p className="text-lg font-bold text-green-600">
             ৳{products.pricePerUnit}
             <span className="text-sm font-normal text-gray-500">
