@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
-import {  FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import LoadingSpinner from "../Loading/Loading";
 const UsersTable = () => {
@@ -12,7 +12,7 @@ const UsersTable = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        "https://krishilink-server-three.vercel.app/users",
+        `https://krishilink-server-three.vercel.app/users?currentEmail=${user?.email}`,
         {
           headers: {
             authorization: `Bearer ${user?.accessToken}`,
@@ -65,17 +65,43 @@ const UsersTable = () => {
     }
   };
 
+  const handleRoleChange = async (id, role) => {
+    try {
+      const res = await fetch(
+        `https://krishilink-server-three.vercel.app/users/${id}/role`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${user?.accessToken}`,
+          },
+          body: JSON.stringify({ role }),
+        }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        Swal.fire("Success!", `User role updated to ${role}`, "success");
+        setUsers(users.map((u) => (u._id === id ? { ...u, role } : u)));
+      } else {
+        Swal.fire("Error!", data.message || "Failed to update role", "error");
+      }
+    } catch (error) {
+      console.error("Role update error:", error);
+      Swal.fire("Error!", "Something went wrong.", "error");
+    }
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="py-10 px-3 sm:px-6 lg:px-10 min-h-[60vh] mx-auto w-full max-w-6xl">
+    <div className="py-10 px-3 sm:px-6 lg:px-10 min-h-[60vh]  max-w-6xl w-[450px] md:w-[600px] lg:w-[800px] mx-auto xl:w-full">
       <h2 className="text-2xl font-semibold mb-6 text-center text-green-600">
         All Users
       </h2>
 
       {users.length > 0 ? (
         <div className="overflow-x-auto">
-          <table className="w-full border border-gray-200 text-sm sm:text-base">
+          <table className="w-full border border-gray-200 text-sm sm:text-base overflow-auto inline-block xl:table">
             <thead className="bg-green-600 text-white">
               <tr>
                 <th className="px-4 py-3 text-center">Profile</th>
@@ -113,9 +139,25 @@ const UsersTable = () => {
                   </td>
                   <td className="px-4 py-2 border-r border-gray-300 text-center">
                     <div className="flex justify-center gap-2">
+                      {u.role === "admin" ? (
+                        <button
+                          onClick={() => handleRoleChange(u._id, "user")}
+                          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded flex items-center gap-1"
+                        >
+                          User
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleRoleChange(u._id, "admin")}
+                          className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded flex items-center gap-1"
+                        >
+                          Admin
+                        </button>
+                      )}
+
                       <button
                         onClick={() => handleDelete(u._id)}
-                        className="bg-red-500 cursor-pointer hover:bg-red-600 text-white px-3 py-1 rounded flex items-center gap-1"
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded flex items-center gap-1"
                       >
                         <FaTrash /> Delete
                       </button>
