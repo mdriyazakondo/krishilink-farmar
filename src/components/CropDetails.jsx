@@ -86,6 +86,7 @@ const CropDetails = () => {
                 {product.location}
               </p>
             </div>
+            <h2>Date: {new Date(product?.created_at).toLocaleString()}</h2>
 
             {/* Owner */}
             <div className="border border-green-200 bg-green-50 rounded-xl p-4">

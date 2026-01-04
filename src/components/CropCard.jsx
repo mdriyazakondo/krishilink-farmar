@@ -43,7 +43,7 @@ const CropCard = ({ products }) => {
         {/* Button */}
         <button
           onClick={handleViewDetails}
-          className="w-full mt-4 py-2.5 rounded-xl bg-green-600 text-white font-medium hover:bg-green-700 active:scale-95 transition"
+          className="w-full mt-4 cursor-pointer py-2.5 rounded-xl bg-green-600 text-white font-medium hover:bg-green-700 active:scale-95 transition"
         >
           View Details
         </button>

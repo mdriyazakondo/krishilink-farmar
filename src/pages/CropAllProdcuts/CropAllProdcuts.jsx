@@ -77,7 +77,7 @@ const CropAllProducts = () => {
         <div className="w-full md:w-56">
           <select
             onChange={(e) => setSort(e.target.value)}
-            defaultValue=""
+            value={sort}
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-400"
           >
             <option value="" disabled>
