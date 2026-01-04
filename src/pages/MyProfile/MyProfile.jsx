@@ -69,7 +69,7 @@ const MyProfile = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 dark:border-slate-700 p-8 flex flex-col justify-between"
+          className="bg-white/80  backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 dark:border-slate-700 p-8 flex flex-col justify-between"
         >
           <div>
             <div className="flex justify-between items-center mb-6">
