@@ -23,6 +23,7 @@ import Contact from "../pages/Contact/Contact";
 import PriviteRoute from "./PriviteRoute";
 import AdminRoute from "./AdminRoute";
 import UsersTable from "../pages/AllUserPage/Users";
+import DashboardOverview from "../pages/DashboardOverview/DashboardOverview";
 
 export const router = createBrowserRouter([
   {
@@ -96,7 +97,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/my-post",
-        element: <MyPosts />,
+        element: (
+          <AdminRoute>
+            <MyPosts />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/my-interests",
@@ -109,6 +114,10 @@ export const router = createBrowserRouter([
             <UsersTable />
           </AdminRoute>
         ),
+      },
+      {
+        path: "/dashboard/overview",
+        element: <DashboardOverview />,
       },
     ],
   },

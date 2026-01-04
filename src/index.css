@@ -1,6 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
-* {
-  font-family: "Roboto", sans-serif;
+/* Global Base Styles */
+@layer base {
+  html,
+  body {
+    @apply min-h-screen bg-white text-gray-800 transition-colors duration-300;
+  }
+
+  .dark html,
+  .dark body {
+    @apply bg-slate-900 text-slate-100;
+  }
+
+  * {
+    font-family: "Roboto", sans-serif;
+  }
 }
