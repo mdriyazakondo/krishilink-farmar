@@ -57,7 +57,7 @@ const MyProfile = () => {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-10 bg-gray-50 dark:bg-slate-950 transition-colors duration-300 relative overflow-hidden">
+    <div className="min-h-[85vh] flex items-center justify-center px-4 py-10 bg-gray-50  transition-colors duration-300 relative overflow-hidden">
       {/* Background Decorative Blobs (Glow Effects) */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-green-300 dark:bg-green-900 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
       <div className="absolute top-0 right-0 w-72 h-72 bg-emerald-300 dark:bg-emerald-900 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
