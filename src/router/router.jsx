@@ -117,7 +117,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/overview",
-        element: <DashboardOverview />,
+        element: (
+          <AdminRoute>
+            <DashboardOverview />
+          </AdminRoute>
+        ),
       },
     ],
   },
