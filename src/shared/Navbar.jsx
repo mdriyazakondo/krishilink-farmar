@@ -112,7 +112,7 @@ const Navbar = () => {
             <div className="bg-green-100 p-2 rounded-full text-green-600 group-hover:rotate-12 transition-transform duration-300">
               <FaLeaf className="text-xl" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-linear-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent">
               KrishiLink
             </span>
           </Link>
@@ -154,7 +154,7 @@ const Navbar = () => {
                   className="p-2.5 flex items-center gap-1 rounded-md cursor-pointer text-green-600 font-bold bg-green-50 hover:bg-green-100 transition-colors"
                   title="Logout"
                 >
-                  <CgLogOut className="w-5 h-5" /> Log Out
+                  <CgLogOut className="w-5 h-5" /> Sign Out
                 </button>
               </div>
             ) : (
